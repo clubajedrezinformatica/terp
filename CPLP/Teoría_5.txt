@@ -1,0 +1,41 @@
+REPASO 
+Unidades: acciones abstractas que presentan atributos que son en términos de las coincidencias con las variables tienen los mismos atributos: un nombre, un alcance, un tipo, un l-valor y un r-valor. Hay una diferencia esencial entre la declaración y la definición: esta diferencia permite extender el alcance de una rutina. Entonces vimos ejemplos y hablamos de la comunicación entre rutinas donde nos adentramos en la definición de parámetros: ACCESO A AMBIENTE LOCAL, ACCESO A AMBIENTE NO LOCAL (otras rutinas o entorno global). 
+
+ESQUEMAS DE EJECUCIÓN: 
+Procesador abstracto que permite definir la semántica operacional de nuestro lenguaje. Permite comprender sobre la memoria qué hace el lenguaje. En ese sentido se establecen: 
+-esquema estático: contamos con un procesador abstracto donde hay zona de código o instrucciones y zona de datos, en la zona de códigos se carga todo lo que es el assembler y permite ejecutar el código que hace modificaciones en la zona de datos. Hay 2 categorías: la primera consta de un programa sencillo con un solo programa principal (instrucciones y datos simplificados). Solo maneja datos locales. La categoría 2 maneja bloques internos sin anidamientos: no puede haber recursión. El C2' puede tener compilación unificada o separada. Pero en particular concluimos en que cuando trabajamos en zona de datos se necesita un registro de activación que mantiene la información de las variables locales a la instancia de una unidad + un punto de retorno que informa la dirección de memoria de la zona de código para continuar el programa una vez terminada la unidad. Se debería contar con los datos locales y el punto de retorno al código como mínimo. En particular debemos recordar que todas las variables, según la definición del tiempo de vida, son de tipo estático, porque se cargan cuando nace en memoria y se desalocan cuando el programa termina (independientemente de a qué unidad pertenezcan). Esto no quiere decir que son globales, cada una corresponde a su registro de activación. Cuando hablamos de variables estáticas hablamos de eso, pero no se refiere al alcance de la variable, sino al tiempo de vida. 
+
+-esquema basado en pila: hay una categoría 3 donde se agrega la posibilidad de hacer recursión, y cada unidad puede retornar un valor. Tenemos un esquema de pila donde las unidades están representadas con su registro de activación, y en la memoria se representa como una pila (tipo fifo). Hay capacidades recursivas y está la posibilidad de que la rutina devuelva un valor. Hay que encontrar un mecanismo que permita compartir información entre unidades, además de los parámetros. Tengo que lograr que una rutina llama a otra esta última pueda devolver un valor y la primera pueda guardarla. El reg de act es de tamaño fijo y conocido, pero no se sabe de antemano cuántas instancias de cada unidad se necesitarán durante la ejecución. El compilador puede ligar cada variable con su desplazamiento dentro del correspondiente registro de activación. La dirección donde se cargará el registro de activación es dinámica, la ligadura con las direcciones absolutas en la zona de datos de la memoria solo puede hacerce en ejecución. Cada nueva invocación aloca un nuevo registro de activación estableciendo las nuevas ligaduras entre el segmento de código y el nuevo registro de activación. Tenemos que hacer esas ligaduras necesariamente para hacer las modificaciones en la memoria. 
+En la recursión se requiere un molde del registro de activación. Ahora necesitamos adicionar un VALOR DE RETORNO. El valor no puede perderse al finalizar la unidad. Cuando la instancia actual su registro de activación no se necesita más, el espacio que ocupaba se puede liberar dejando espacio para nuevos registros que eventualmente se requieran. Entonces suponemos el caso de llamado recursivo donde además del punto de retorno a la zona de instrucciones (para el regreso al punto donde quedó esperando el programa) y un espacio de memoria para las variables de ejecución de la unidad o subrutina, se necesita una celda de memoria para guardar el valor de retorno que pueda ocasionar el llamado recursivo. Hablamos de LINK DINÁMICO: la locación dinámica requiere nuevos elementos. La rutina guarda en su registro de activación el valor de retorno de la rutina que fue llamada. El link contiene un puntero a la dirección base del registro de activación de la rutina llamadora. Contengo un puntero de la rutina que me llamó. El link dinámico contiene esa dirección base. También se necesita un Current: dirección base del registro de activación de la unidad que se encuentra en ejecución (se mantiene en memoria porque conozco ese dato) y un Free: es la próxima dirección libre en la pila -> no se encuentra en el registro de activación, al igual que el current son datos adicionales o metadata. Yo podría alocar el registro de activación de una unidad a la que debo llamar. Así se forma una CADENA DINÁMICA formada por los registros de activación de los llamados que se encuentran activos en la memoria. 
+QUÉ PASA CUANDO SE LLAMA O SE RETORNA A O DESDE UNA RUTINA 
+Ejemplo: instrucción CALL -> 
+-Se aloca espacio para el posible valor de retorno 
+-Salva el punto de retorno al código 
+-Salva el link dinámico 
+-Actualiza el current 
+-Actualiza el free 
+-Transfiere el control a la unidad llamada
+Todos los pasos se realizan cada vez que hay una llamada a subrutina. 
+
+Ejemplo 2: instrcción RETURN
+-reestablece el free 
+-reestablece el current 
+-bifurca al punto de retorno 
+
+Para los ejercicios prácticos de la materia solamente se trabaja con la zona de datos del programa (no con la zona de instrucciones). Lo primero a hacer es dibujar una estructura de pila, reservar un espacio para el free y el current, y luego trabajar con el MOLDE DEL REGISTRO DE ACTIVACIÓN. Tengo que definir el molde con 5 componentes: 
+-PUNTO DE RETORNO
+-LINK DINÁMICO
+-VARIABLES LOCALES 
+-NOMBRES DE UNIDADES 
+-VALOR DE RETORNO 
+
+Con esto ganamos flexibilidad. 
+
+ADVERTENCIA: estamos hablando de variables que son de tipo automáticas, porque se cargan en memoria junto con el registro de activación y se van de la memoria una vez que el registro de activación se desaloca de memoria. Son las más comunes en los esquemas de pila. 
+
+CATEGORÍA 4: tiene 2 subcategorías:
+-subcategoría 1: permite que dentro de las sentencias compuestas aparezcan declaraciones locales (definir variables dentro de un while, por ejemplo)... 
+-subcategoría 2: permite dentro de la declaración de una rutina la definición de OTRA RUTINA. (anidamiento de rutinas)
+
+Se conforma una ESTRUCTURA DE BLOQUE: donde hay que ver el alcance de las variables (enmascaramiento)... define de otra manera el tiempo de las variables porque no pertenecen a una unidad más pequeña... los bloques pueden ser disjuntos o anidados... 
+Un bloque tiene forma de una sentencia compuesta donde las variables tienen alcance local (sólo son visible dentro de la sentencia compuesta). En caso de anidamiento puede haber una nueva declaración. El alcance va tomando diferentes tamaños en términos léxicos... Estructura de muñecas rusas en el mecanismo de enmascaramiento de las variables (alcance). 
