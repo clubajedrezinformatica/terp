@@ -1,0 +1,23 @@
+Según lo visto en la teoría y en la bibliografía consultada, hay varios criterios que permiten evaluar a un lenguaje de programación. Uno de ellos es la legibilidad, entendida como el grado en que cada programa escrito en determinado lenguaje puede ser leído y comprendido. Algunas características ayudan a que un lenguaje sea más legible. En principio, podemos mencionar a la simplicidad (la "integridad conceptual") de un lenguaje como una herramienta que afecta fuertemente su legibilidad. En este sentido, podemos identificar, entre otros, dos elementos que pueden atentar contra la simplicidad en un lenguaje: en primer lugar, la multiplicidad de una característica ("feature multiplicity"), esto es, tener más de una forma de resolver una misma operación con el lenguaje. Un ejemplo en Java sería el que sigue: 
+
+public static void main(string [] args){
+    System.out.println("Ingrese un número para obtener el resultado de restarle 3");
+    Scanner sc = new Scanner();
+    int numero = sc.nextInt();
+    numero = numero - 1;
+    numero -= 1;
+    numero--;
+    System.out.println("El resultado del número ingresado menos 3 es: " + numero);
+} 
+
+En el código presentado, se solicita un número a un usuario y se imprime el resultado de restar 3 a ese número. Como puede observarse, esa operación se realiza en el programa de 3 maneras distintas: numero = numero - 1, numero -= 1 y numero--. Todas resuelven la misma operación (restar en uno una variable definida), pero se escriben de forma diferente, lo que es un claro ejemplo de "feature multiplicity". El segundo elemento que puede alterar la simplicidad de un lenguaje es lo que se define como sobrecarga de operadores. Si bien en C esto está vedado y en Java es casi inexistente, sí existe en este último un operador con sobrecarga, el operador '+': 
+
+public static void main (string [] args){
+    int a = 8, b = 10; 
+    String str1 = "Hola", str2 = " mundo!"; 
+    System.out.println(a + b); 
+    System.out.println(str1 + str2);
+    System.out.println((a + b) + (str1 + str2)); 
+}
+
+La sobrecarga del operador '+' permite que sea utilizado tanto para resolver una suma entre dos operandos de tipo numérico como para concatenar entre sí distintas cadenas de caracteres, o incluso concatenar los dos tipos de datos. De este modo, la primer salida por consola imprimirá 18 (la suma de las dos variables de tipo int declaradas), mientras que la segunda mostrará "Hola mundo!", la concatenación de las dos variables de tipo String. En el tercer y último caso, la salida será "18Hola mundo!". 
