@@ -20,4 +20,50 @@ public static void main (string [] args){
     System.out.println((a + b) + (str1 + str2)); 
 }
 
-La sobrecarga del operador '+' permite que sea utilizado tanto para resolver una suma entre dos operandos de tipo numérico como para concatenar entre sí distintas cadenas de caracteres, o incluso concatenar los dos tipos de datos. De este modo, la primer salida por consola imprimirá 18 (la suma de las dos variables de tipo int declaradas), mientras que la segunda mostrará "Hola mundo!", la concatenación de las dos variables de tipo String. En el tercer y último caso, la salida será "18Hola mundo!". 
+La sobrecarga del operador '+' permite que sea utilizado tanto para resolver una suma entre dos operandos de tipo numérico como para concatenar entre sí distintas cadenas de caracteres, o incluso concatenar los dos tipos de datos. De este modo, la primer salida por consola imprimirá 18 (la suma de las dos variables de tipo int declaradas), mientras que la segunda mostrará "Hola mundo!", la concatenación de las dos variables de tipo String. En el tercer y último caso, la salida será "18Hola mundo!". Esto es otro ejemplo de cómo se ve afectada la simplicidad de un lenguaje, si bien en el caso de Java es el único caso que podría señalarse. 
+Una segunda característica que otorga legibilidad es lo que se denomina ortogonalidad, esto es, que un conjunto relativamente pequeño de constructores primitivos cuya combinación sea acotada pero siempre válida permita formar las estructuras de control y de datos del lenguaje. Un ejemplo en el lenguaje C que atenta contra esta cualidad es el hecho de que un tipo de estructura de datos (llamadas structures) pueden ser retornadas por una función, pero no así los arrays.
+
+struct punto{
+    int x;
+    int y;
+}
+struct punto get_punto(){
+    struct punto p;
+    p.x = 2;
+    p.y = 4; 
+    return p; 
+}
+
+Mientras que en la primer parte del ejemplo se define la estructura de datos con dos campos internos (o tags) para definir una ubicación del punto sobre el plano, la función get_punto() devuelve una variable del tipo struct declarado. Sin embargo, no es posible devolver un array desde una función. Este tipo de restricción se considera como no ortogonal. Por otra parte, un aspecto importante para evaluar la ortogonalidad es que un mismo constructor del lenguaje no debería comportarse de manera distinta en diferentes contextos. Esto es lo que sucede con la palabra clave static en C: 
+
+int devolver_uno(){
+    static int numero_uno = 0;
+    numero_uno++;
+    return numero_uno;
+}
+static int devolver_dos(){
+    int numero_dos = 1; 
+    numero++;
+    return numero_dos;
+}
+
+Mientras que en la primera función la palabra static define una variable cuya característica principal es que sólo será destruida una vez que el programa haya finalizado en su totalidad (y no una vez terminada la ejecución de la función, como suele suceder con las variables convencionales), en el segundo caso el static indica que la función sólo es accesible dentro del archivo donde se encuentra declarada. Este uso múltiple de una palabra clave es otro ejemplo de carencia de ortogonalidad.
+Un tercer criterio para evaluar un lenguaje es el de la confiabilidad, que involucra tanto el chequeo de tipos como el manejo de excepciones. Java es un caso por antonomasia de lenguaje fuertemente tipado, en donde el chequeo de tipos de datos se hace en tiempo de compilación, interceptando posibles errores y haciendo menos costosa la ejecución del programa. 
+
+public static void main(string [] args){
+    double pi = Math.PI;
+    String piString = "Este es el número PI"; 
+    double piAlCuadrado = pi * piString; 
+}
+
+En el ejemplo se define primero una variable de tipo double, luego una variable de tipo String, y luego se intenta realizar una multiplicación entre las dos variables. Esta última instrucción genera una advertencia del compilador: "bad operand for binary operator '*'"; este chequeo permite la corrección del error antes de la ejecución del programa. En su libro de cabecera sobre el lenguaje C, Kernighan y Ritchie hablan de la palabra clave goto, señalando que si bien es posible escribir cualquier sentencia sin utilizarla, puede encontrar lugar en ciertos contextos. Ghezzi y Jazayeri, en un apartado dedicado a la seguridad como criterio de evaluación de los lenguajes, desaconsejan su uso, afirmando que es una bien conocida fuente de peligro en el programa: "Esta característica puede causar errores sutiles que son difíciles de detectar durante el desarrollo del programa, y pueden manifestarse de manera inesperada en el software entregado." Podría ejemplificarse su uso con el caso de buscar si existe un elemento común entre dos arreglos: 
+
+for (i = 0; i < n; i++)
+    for(j = 0; j < m; j++)
+        if (a[i] == b[j]) 
+            goto match;
+...
+match:
+    bool elementoComun = true; 
+
+Es claro que en un programa de muchas líneas sentencias de este tipo harán al programa menos legible, y por lo tanto menos mantenible. En cambio, una variable booleana podría incluirse en el for-loop para determinar si se ha encontrado o no el elemento en común, y así podría darse una solución más legible y menos propensa a errores. 
