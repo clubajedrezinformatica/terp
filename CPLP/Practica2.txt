@@ -1,0 +1,41 @@
+Ejercicio 2 
+La sintaxis debe ayudar al programador a escribir programas correctos sintácticamente estableciendo reglas que sirvan a la comunicación entre el procesador y quien programa. La sintaxis debe contemplar soluciones a características tales como legibilidad, verificabilidad, traducción y falta de ambigüedad. En resumen, la sintaxis establece reglas que definen cómo deben combinarse las componentes básicas, llamas "word", para formas sentencias y programas. Los elementos de la sintaxis son: 
+-alfabeto o conjunto de caracteres 
+-identificadores
+-operadores 
+-palabras clave / palabras reservadas 
+-comentarios y uso de blancos 
+
+EJERCICIO 3 
+
+REGLA LEXICOGRÁFICA: en un lenguaje de programación se refiere al conjunto de normas que se utilizan para definir cómo se deben interpretar y clasificar los diferentes elementos de un programa, como los identificadores, las palabras clave, los operadores y los símbolos especiales.
+
+En particular, la regla lexicográfica establece el ORDEN DE PRECEDENCIA de los diferentes elementos de un programa en caso de que se presenten juntos en una misma línea de código. Esta regla es importante para garantizar la legibilidad del código y evitar ambigüedades en la interpretación del mismo.
+
+Por ejemplo, en el lenguaje de programación C, la regla lexicográfica establece que los identificadores (como los nombres de variables y funciones) deben comenzar con una letra o un guión bajo, y pueden estar seguidos por letras, dígitos o guiones bajos. Además, las palabras clave del lenguaje (como "if", "else" y "for") tienen una precedencia mayor que los identificadores, por lo que si se utilizan juntos en una misma línea de código, el compilador interpretará primero la palabra clave y luego el identificador.
+
+En resumen, la regla lexicográfica es una parte fundamental de la sintaxis de un lenguaje de programación, ya que establece el orden y la prioridad de los diferentes elementos del programa, lo que permite al compilador o intérprete interpretar correctamente el código y generar el comportamiento deseado. Según la teoría, una regla léxica es el conjunto de reglas que permiten formas las "word" a partir de los caracteres del alfabeto. 
+
+REGLA SINTÁCTICA: se refieren a las normas que definen la estructura y el orden correctos de los elementos del lenguaje, como las palabras clave, los operadores, los identificadores, las constantes y las expresiones. Estas reglas establecen cómo se pueden combinar los elementos del lenguaje para crear sentencias y programas válidos.
+
+La sintaxis de un lenguaje de programación se define a través de una gramática formal, que especifica las reglas sintácticas del lenguaje. Esta gramática está compuesta por un conjunto de reglas de producción que definen cómo se pueden construir las sentencias y programas del lenguaje a partir de sus componentes más básicos. Según la teoría, es el conjunto de reglas que definen cómo formas las expresiones y las sentencias. 
+
+En principio, la regla léxica permite formas las "word" que permiten formas las expresiones y sentencias del lenguaje. 
+
+EJERCICIO 4: las PALABRAS RESERVADAS son palabras clave que además no pueden ser usadas por el programador como identificador de otra entidad, permitiendo al compilador y al programador expresarse en forma clara y haciendo los programas más legibles y traducibles en tiempo rápido. 
+
+En la definición de una gramática formal para un lenguaje de programación, las palabras reservadas se representan como símbolos no terminales. Los símbolos no terminales son etiquetas que se utilizan para representar conjuntos de cadenas de caracteres que pueden generarse a partir de las reglas de producción de la gramática.
+
+Por ejemplo, en la gramática del lenguaje de programación C, la palabra reservada "if" se representa como el símbolo no terminal if_statement, que es definido por una regla de producción que indica cómo se puede construir una sentencia "if" a partir de sus componentes:
+if_statement → if ( expression ) statement [else statement]
+
+Esta regla de producción define que una sentencia "if" consiste en la palabra clave "if" seguida de una expresión entre paréntesis, seguida de una sentencia (la cual se ejecuta si la expresión es verdadera), y opcionalmente seguida por la palabra clave "else" y otra sentencia (la cual se ejecuta si la expresión es falsa).
+
+Las palabras reservadas son importantes en la definición de la gramática de un lenguaje de programación porque representan elementos del lenguaje que tienen una sintaxis y un significado predefinidos y no pueden ser redefinidos por el usuario. De esta manera, al representar las palabras reservadas como símbolos no terminales en la gramática, se pueden especificar las reglas de producción para construir correctamente las sentencias y programas del lenguaje.
+
+
+
+
+
+
+
