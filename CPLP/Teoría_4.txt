@@ -1,0 +1,70 @@
+Los lenguajes de programación permiten que un programa esté compuesto por UNIDADES, que son acciones abstractas llamadas rutinas (procedimientos o funciones). Los procedimientos tienen un conjunto de instrucciones y las funciones se distinguen de los primeros por devolver o retornar un único valor. 
+CARACTERÍSTICAS SINTÁCTICAS-SEMÁNTICAS de las RUTINAS
+Mecanismos de control del flujo de ejecución con respecto a las ligaduras que se involucran al definirlas. 
+Vamos a empezar con los ATRIBUTOS (en C o Python sólo se tienen funciones y lo que se hace es simular a los procedimientos definiendo las funciones con tipo de retorno void - valor sin tipo particular). 
+-NOMBRE: es un conjunto de caracteres que sirve para la invocación de la unidad. Se define en su declaración (!= a definición). La llamada a la unidad debe estar dentro del alcance del nombre de la rutina. Si la declaración de la función está debajo de main no se podría invocar sin que haya un error de compilación o ejecución. 
+
+-ALCANCE: Rando de instrucciones donde se conoce al nombre de la rutina. La activación sólo puede estar dentro del alcance de la rutina (desde el aspecto semántico no tiene sentido invocar un nombre que no conozco). Se trabaja de manera similar que con variables. 
+
+Hay una distinción entre la definición y la declaración. Hay un encabezado de la función + un cuerpo de instrucciones que hacen a la rutina que estamos abstrayendo. La declaración es el encabezado y la definición es encabezado + cuerpo. Si se distingue se permiten llamados recursivos. La declaración de una rutina extiende el alcance (para que sea invocada desde cualquier parte del programa). 
+
+TIPO: El encabezado define el tipo de parámetros + el tipo de retorno si lo hubiera. La correspondencia de tipos entre parámetros formales y reales es requerida para la ejecución de la rutina. 
+
+L-VALOR: lugar de memoria donde se almacena el cuerpo de la rutina  
+R-VALOR: código de ejecución de la rutina 
+
+El r-valor estático es el más usual, puede haber dinámico si hubiera variables de tipo rutina (por ej. enviar una rutina como parámetro). Esto se implementa con punteros a rutinas y es más complejo de manejar. Es un caso particular y se da en C por ejemplo. 
+
+COMUNICACIÓN ENTRE RUTINAS 
+Si hay necesidad de intercambio de información se hace con: 
+-AMBIENTE NO LOCAL: área externa, lugar de memoria específico (variables globales tendría mayores desventajas).
+-PARÁMETROS: distintos datos en cada llamado y mayor legibilidad+modificabilidad. 
+
+PARÁMETROS FORMALES: aparecen en el encabezado (tipo + nombre)
+PARÁMETROS REALES: los que se pasan en la invocación de la rutina.
+
+Cómo se hacen las LIGADURAS: 
+-POSICIONAL: uno a uno, en función de la posición que ocupa en la definición y en la invocación. 
+-VALORES POR DEFECTO (se pueden especificar los parámetros reales o sino se fija un valor por defecto).
+-MÉTODO POR NOMBRE: deben conocerse los nombre formales. Se puede definir un nombre para los parámetros y definir un valor de acuerdo al nombre con que se llama a la función. 
+
+Vistos los atributos de las UNIDADES podemos hablar de la representación en ejecución: hay una máquina abstracta, la definición especifica un proceso de cómputo, la invocación es una instancia de la rutina, que es la representación de la rutina en ejecución, que implica un segmento de código de contenido fijo + un registro de activación (cuenta con los datos puntuales en función de los parámetros que se reciba o de la definición de las variables -> es un contenido variable). Entonces hay un puntero a memoria donde está el segmento de código, pero nos ocupamos de la memoria de datos y cómo trabaja en la ejecución de los programas. 
+
+Se supone un PROCESADOR ABSTRACTO: se traduce el código del programa a instrucciones del procesador abstracto. Hay memoria de código + memoria de datos + puntero a la instrucción -> 
+SET: setea valor en la memoria de datos 
+E/S: read/write: permiten la comunicación con el exterior 
+
+Se pueden combinar las expresiones. 
+
+JUMP: bifurcación incondicional, salta de instrucción. 
+JUMPT: bifurcación condicional, salta si la expresión evaluada es verdadera
+DIRECCIONAMIENTO INDIRECTO
+
+PUNTO DE RETORNO: es una pieza cambiante de información que debe ser salvada en el registro de activación de la unidad llamada. Va a mantener la ip de la unidad llamadora a la que se debe regresar una vez ejecutada la unidad. Se mantiene la ip. 
+AMBIENTE LOCAL: variables locales  
+AMBIENTE NO LOCAL  
+
+ESTRUCTURAS DE EJECUCIÓN: 
+estático 
+basado en pila 
+dinámico 
+
+Cada categoría incorpora diferentes elementos que acercan a una representación real. Se profundiza en estático y basado en pila (después entender en términos generales el esquema dinámico). 
+
+ESTÁTICO: tamaño necesario de memoria conocidos antes de la ejecución, esa locación se hace estáticamente (no habrá modificación) y no se permite recursión 
+
+PILA: hay un espacio predecible, los requerimientos de memoria no se calculan antes de la ejecución, entonces la memoria es calculable y sigue la estructura de una pila. Cuando se termina una unidad se libera la memoria, las variables se alocan de modo automático y se desapilan cunado la unidad ha terminado. La pila no es parte de la semántica del lenguaje sino parte del modelo abstracto con que analizamos su funcionamiento. 
+
+DINÁMICO: el espacio no es predecible, los datos se alocan dinámicamente en cualquier punto que se requiera y no hay una memoria de pila sino una memoria heap (se crean on demand durante ejecución). 
+
+CATEGORÍAS DE ESTRUCTURAS DE EJECUCIÓN 
+Cada una tiene características propias que define un registro de activación que guarda información sobre la rutina que se está ejecutando. 
+
+C1(estático): hay sentencias simples(tipos de datos simples), datos de tamaño fijo(estáticos) y programa definido como programa principal (sin rutinas)... Lo que sucede es que en la memoria de datos un registro de activación contiene una celda para las variables declaradas en el main. En la zona de código primero se setea el valor de cada variable en su celda correspondiente, luego hay un salto cuando una condición es verdadera (las dos variables son iguales)... Lo que se ve es que tenemos un código de alto nivel traducido al lenguaje de una máquina abstracta.
+
+C2(estático): se definen rutinas internas (no anidadas ni pasibles de recursión). Qué tiene el registro de activación? Se alocan las variables globables del programa, la memoria de datos va solapando con la declaración de variables locales a las variables globales declaradas previamente. La memoria de código se representa en assembler y en la zona de datos cada rutina requiere de un registro de activación propia, y la información en la zona de datos cambia de la siguiente manera: se apila la función main, luego se invoca a beta() y se guarda el punto de retorno en la función main(). Salto al registro de activación de la función beta(), se setea valor a variables... El registro de activación requiere un elemento más al de la categoría C1, que es el punto de retorno (necesario por la posibilidad de invocación de rutinas). A medida que corre la ejecución se generan los registros de activación en la zona de datos con las variables propias y el valor que deberían tener, y una dirección en el punto de retorno del registro de activación para poder continuar con el flujo de ejecución al terminar. 
+
+C2': el compilador no puede ligar variables locales a direcciones absolutas, tampoco permite variables globales, se requiere de un LINKEDITOR encargado de combinar los módulos y ligar la información faltante. Esta categoría no difiere semánticamente de C2. Lenguajes como C pueden compilar varios archivos al mismo tiempo como un programa común. Son rutinas compiladas en forma separada, no puede combinar en el código referencias de otros archivos... Entonces deja información sobre a quién apunta, no sobre a qué dirección física particular. Eso lo salva el linkeditor resolviendo las direcciones precisas (físicas) para el cambio de información en la zona de datos. 
+
+Los esquemas de ejecución pertenecen a la SEMÁNTICA OPERACIONAL. 
+
