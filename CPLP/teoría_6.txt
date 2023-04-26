@@ -1,0 +1,33 @@
+RUTINAS 
+Conjunto de sentencias que representan ACCIÓN ABSTRACTA 
+Representa una UNIDAD DE PROGRAMA 
+Permiten ampliar los lenguajes 
+SUBPROGRAMAS son el ejemplo usual y útil (esquema call/return)
+Permiten definir una operación creada por el usuario a semejanza de las operaciones primarias integradas en el lenguaje. 
+
+Definen operaciones nuevas o sentencias nuevas. Hay dos categorías: 
+PROCEDIMIENTOS: definen nuevas sentencias creadas por el programador y los resultados los produce en variables o locales o en parámetros que cambian su valor 
+FUNCIONES: permite crear operaciones o definir operadores, son similares a funciones matemáticas ya que producen un valor sin efectos colaterales, se las invoca dentro de expresiones y el valor que produce REEMPLAZA LA INVOCACIÓN DENTRO DE LA EXPRESIÓN
+
+Pedazos de código que se ejecutan si son invocados. Nos dan una abstracción porque cuando definimos una rutina para usarla hay que saber qué hace sin saber cómo está implementada. Desde el punto de vista de quien programa una rutina hay que preocuparse por cómo construirla. También la defino una sola vez y la puedo usar múltiples veces: es una implementación abstracta de una acción. 
+
+PARÁMETROS 
+Las rutinas al ejecutarse tienen un punto de comunicación de datos. Donde hay variables locales se usan en la misma unidad. El problema empieza cuando hay compartición de variables de ambiente no local, o cuando hay parámetros. En el primer caso aparecen variables de otras unidades del programa (a quién pertenece el indicador que apareció en la rutina -> quién llamó {cadena dinámica} o dónde está contenida {cadena estática}). Esto sería compartir datos en ambiente no locales. 
+El pasaje de parámetros permite especificar qué datos se van a compartir. Si somos prolijos tengo el ambiente local bien definido y los datos que se van a compartir vía el uso de parámetros -> es una buena práctica de programación y permite mayor legibilidad. Permite invocar la rutina con más de un dato y lo importante es que hay que respetar el tipo definido en la declaración de la rutina. 
+El acceso al ambiente no local tiene dos formas de trabajo: 
+1) implícito: regla de alcance estático/dinámico. Se ejecuta de forma automática con las reglas que adopta el lenguaje. 
+2) explícito: áreas comunes de código (no recomendado). El programador tiene que saber si el lenguaje permite su uso y definirlo. Depende de la disponibilidad (en fortran se usaba "common" para definir un área común para una serie de variables que podían utilizarse en el resto del programa). Cada lenguaje tiene sus herramientas para definir estas cosas. 
+
+PASAJE DE PARÁMETROS
+Hay que tener en cuenta que depende su ubicación tienen nombres distintos: formal o real. El real es el argumento, es un valor o entidad que se pasa a un procedimiento o función al momento de su invocación. El formal es propiamente el parámetro, es una variable utilizada para recibir valores de entrada en una rutina. Los argumentos /parámetros tiene que coincidir en tipo y cantidad, no necesariamente en orden. El uso de parámetros tiene ventajas con respecto a compartir un ambiente no local, en primer lugar se comparten siempre los mismos datos del ambiente, mientras que en cada llamada a una rutina los parámetros pueden diferir, es más flexible, es más legible y modificable, y permite compartir datos de manera abstracta ya que indican con precisión qué es lo que se comparte. Hay que tener en cuenta que es una buena práctica. Los parámetros formales son variables locales a su entorno declaradas con una sintaxis especial y sirve para intercambiar información entre la invocación a la función y la rutina. Los datos pueden ser cualquier cosa (incluso otra rutina - función pasada como parámetro). 
+
+Otra condición a tener en cuenta es que hay un momento es que se vincula el parámetro real con el formal. Hay una EVALUACIÓN que es antes de llamar a la rutina, se evalúa los parámetros reales de la parte llamadara, y luego hay una LIGADURA o enlace con el parámetro formal para la transferencia de control a la rutina. Se evalúan primero los parámetros reales y si todo está correcto se realiza la ligadura. Cuando hablamos de ligadura puede haber dos formas de trabajar: el enlace posicional (se corresponde uno a uno los argumentos con los parámetros), o el enlace puede ser por palabra clave o nombre, que permite especificar por palabra clave qué parámetro real estoy pasando a la función. Esto último depende del lenguaje. 
+
+CLASIFICACIÓN 
+-datos: 
+a)modo IN: el parámetro formal recibe la información del parámetro real, la conexión es al inicio y se corta después. Puede ser por valor o por constante. En el primer caso el valor del p real se usa para inicializar el correspondiente p formal al invocar la unidad. Se transfiere el dato real y ese dato se toma como una variable local de la rutina. La desventaja es que consume el timepo para hacer la copia y el almacenamiento para duplicar el dato, y la ventaja es que protege los datos de la unidad llamadora, el parámetro real no se modifica. También el pasaje puede ser un valor constante (hay lenguajes que lo permiten), no indica si se realiza o no la copia sino que establece que la implementación debe verificar que el parámetro real no sea modificado, requiere realizar más trabajo para implementar los controles pero tiene la misma ventaja que el caso anterior. No se pueden modificar en la rutina los valores recibidos.   
+b)modo OUT: se invoca la rutina, ésta se ejecuta y luego el parámetro formal transmite información al parámetro real (la conexión es al final). La opción es por resultado o el resultado de funciones. 
+c)modo IN/OUT: el parámetro formal recibe el dato del parámetro real y el parámetro formal le envía el dato al real (conexión inicio/fin)
+-programas, puede ser por referencia (pasaje de punteros), o por nombre. También se pasan parámetros por funciones: son como procedimientos a los que se envía información, hacen algo y devuelven un valor, sin producir efectos colaterales, los parámetros formales deberían ser siempre modo in (no se permite pasaje por referencia en Pascal). Cada lenguaje tiene su idiosincrasia. 
+
+Lo importante de ver es que depende del lenguaje las posibilidades que habrá. 
