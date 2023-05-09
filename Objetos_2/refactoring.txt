@@ -1,0 +1,28 @@
+El refactoring consiste en mejorar el código sin cambiar la funcionalidad, por lo cual el cliente no notará cambio alguno en el sistema. La velocidad es la misma, y los tipos de mejora pueden ser: legibilidad, claridad, etc. Son cambios internos al código. 
+Introducción + Ejemplo + Catálogo/Índice con descripciones 
+
+El refactoring tiene que ver con los cambios, que ocurren todo el tiempo y son impredecibles en tiempo y forma, el refactoring es una técnica que ayuda a que el software se adapte rápidamente a los cambios. Esta práctica es importante y sirve mucho, se asume que el programador sabe utilizar las herramientas de refactoring, es importante la intuición y la osadía de cambiar el código. Hay leyes de Lehman, quien estudió mucho código y planteó que el cambio es continuo y los sistemas deben adaptarse o empeoran, el crecimiento es continuo para mantener la satisfacción del cliente, la complejidad es mayor, y la calidad declina si no se cuidan los atributos de la arquitectura. El mantenimiento que haga a la extensibilidad del sistema colaboran a su calidad. La deuda técnica se verá más adelante, dificultan la vida del programador. La idea es prepararse para el cambio, el sistema debe ser adaptable y rápido para seguir el crecimiento del negocio. Si tengo código implementado utilizado por un cliente, hay un costo de mantenimiento, leer código existente es la mitad del tiempo de mantenimiento (en general se lee código ajeno). La idea es reducir el tiempo haciendo el código más legible. Diseñar es difícil porque los dominios son nuevos y hay que ver qué pasa. Prueba y error es la manera. Se adapta, se transforma y se mejora. El error y el cambio es inevitable. La iteración es fundamental: para que el código sea reusable hay que iterar con más funcionalidad o mejoramiento de la estructura. Lo que tenemos es que hay grandes cantidades de código spaghetti que empeoran la arquitectura del software, entonces hay que aplicar cambios poco a poco, da lugar a la libertad y a la creatividad del programador. Hay posibilidades de exploración, sabiendo que hay un mecanismo que si pongo bien las cosas se puede empezar de nuevo. 
+Esto tiene que ver con los métodos ágiles. Las dos prácticas esenciales son el refactoring y el testing. Lo que plantean los que redactaron el Agile Manifesto es que hay que diseñar nuevas formas de desarrollo que superaran las limitaciones de los modelos en cascada. El movimiento ya se venía dando (los japoneses de Toyota tienen los primeros paper de desarrollo ágil en 1986). Hay que documentar ciertas partes, aunque al programador después no le sirva, se valora a las personas involucradas, se valora más el código que funcione, se valora más la adaptación al cambio que un plan rígido predeterminado. 
+REFACTORING: es una transformación que mejora el código sin cambiar su comportamiento (1992). Martin Fowler desarrolló en Smalltalk la primera herramienta de refactoring. El catálogo de cambios son recetas de modificación de código. Es un proceso de cambio de un sistema de software. La idea es aplicar los cambios después de que el código ya pasó los tests (no hay bugs en refactoring). Se eliminan duplicaciones, se simplifican lógicas complejas, se clarifican códigos. Se testea después de cada cambio. Los refactoring son pequeños porque no quiero romper. Si tiro y vuelvo a hacer no hay refactoring. Para hacer cambios grandes hay que diseñar el refactoring. El código legacy bancario en Cobol, si quiero llevarlo a una arquitectura de microservicios, se toma el código en partes y se modifica de a poco. El tema es que se reconozca el tiempo necesario por parte de los stakeholders (costo de mantenimiento). Lo que pasa es uqe hay un proceso claro donde hay un branch separado del código en producción, se aplica refactoring y se realiza un merge una vez que pasó los tests (alguien revisa los cambios, verifica que pasa los tests y realiza el merge correspodiente). Hoy hay herramientas potentes, el programador decide qué refactoring conviene pero permite crear versiones diferentes. 
+
+EJEMPLO 
+Extract Method: toma una parte de un método largo y hago un nuevo método. En el método original se invoca al nuevo método. Debe tener un buen nombre autoexplicativo. Siempre se testea después de un cambio, y hay que definir buenos nombres para los métodos y las variables. Si el método tiene más de un valor a retornar entonces el extract method no es posible. 
+
+Move Method: si un método uiliza atributos de otra clase se mueve el método a la clase que contiene los datos (esto es delegación de responsabilidades). 
+
+Replace Conditional with Polymorphism 
+
+Siempre se intenta evitar las variables temporales (que dificulta la extracción de métodos) -> Replace Temp with Query
+
+La performance es postrefactoring. 
+
+CATÁLOGO 
+Martin Fowler extendió con ejemplos en Java los primeros escritos en C++. Luego se reeditó con ejemplos en Javascript. Por dónde empezar? BAD SMELLS/CODE SMELLS, es una forma de expresar los indicios de problemas a futuro con el código (por ej. métodos largos). Los indicios podrían no ser problemas o malos. Sólo se cambia si se justifica hacerlo. Lo bueno de Fowler es el catálogo de code smells: código duplicado, método largo, clase larga, clase de datos, envidia de atributos, lista larga de parámetros, switch statements (un clásico). 
+
+BLOATERS: agrandan el código 
+CHANGE PREVENTERS 
+COUPLERS: acoplamiento 
+
+Catálogo de refactorings: formato: nombre, motivación, mecánica, ejemplo 
+
+
