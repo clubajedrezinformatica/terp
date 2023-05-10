@@ -7,7 +7,7 @@ RUTINA -> ATRIBUTOS: nombre, parámetros formales, parámetros reales
 SENTENCIA -> acción asociada 
 Otra cosa a tener en cuenta es el DESCRIPTOR: un repositorio donde se almacena el conjunto da atributos de una entidad. 
 Uno de los conceptos es ligadura o binding: los programas trabajan con estas entidades asociadas a atributos, esos atributos deben establecerse antes de la ejecución, entonces la LIGADURA es el momento en que se asocian esos atributos con un determinado valor. 
-El concepto de ligadura es diferente según el lenguaje, pero el número de entidades varían así como la cantidad de atributos asociados, el momento de la ligadura (estático o dinámico) y la estabilidad (si se puede modificar o no la ligadura -> ejeplo => constante). 
+El concepto de ligadura es diferente según el lenguaje, pero el número de entidades varían así como la cantidad de atributos asociados, el momento de la ligadura (estático o dinámico) y la estabilidad (si se puede modificar o no la ligadura -> ejemplo => una constante no permite modificar la ligadura establecida). 
 LIGADURA ESTÁTICA 
 - se establece antes de la ejecución y es inmodificable. 
 LIGADURA DINÁMICA
@@ -26,33 +26,33 @@ EJEMPLO 3: LIGADURA EN TIEMPO DE COMPILACIÓN: asignación de tipo a una variabl
 Durante la ejecución las variables tienen un espacio de almacenamiento y un valor. Si a es de tipo entero se puede asignar valores distintos a la variable, siempre y cuando sea del mismo tipo. 
 
 VARIABLES: semántica operacional 
-Siempre trabajamos los conceptos de abstracción: una variable es una abstracción de una celda de memoria, esa variable tiene un nombre que es abstracción de una dirección, y las sentencias de asignación permiten modificar el valor de ese espacio en la memoria. El concepto de la semántica operacional vinculada a las variables tiene un significado: tenemos que interpretar para saber qué pasa: las sentencias disparan una acción: x=8 ... x=y... así como están estos ejemplos nos pueden llevar a errores porque podrían ser variables de diferentes tipos, así solas las instrucciones no tienen el contexto necesario para saber si son o no consistentes. Ese contexto que brinda la información necesario para interpretar la sentencia son los ATRIBUTOS de las entidades que forman la sentencia. ATRIBUTOS: 
+Siempre trabajamos los conceptos de abstracción: una variable es una abstracción de una celda de memoria, esa variable tiene un nombre que es abstracción de una dirección, y las sentencias de asignación permiten modificar el valor de ese espacio en la memoria. El concepto de la semántica operacional vinculada a las variables tiene un significado: tenemos que interpretar para saber qué pasa: las sentencias disparan una acción: x=8 ... x=y... así como están estos ejemplos nos pueden llevar a errores porque podrían ser variables de diferentes tipos, así solas las instrucciones no tienen el contexto necesario para saber si son o no consistentes. Ese contexto que brinda la información necesaria para interpretar la sentencia son los ATRIBUTOS de las entidades que forman la sentencia. ATRIBUTOS: 
 -nombre: conjunto de caracteres que referencia un identificador 
 -alcance donde es visible o conocida (rango de instrucciones donde puede ser referenciada)
 -tipos: tipos permitidos en un rango de valores y operaciones permitidas  
 -l-valor: lugar de memoria asociado a la variable, está asociado al tiempo de vida (locación y destrucción)
-r-valor: representa el valor codificado/almacenado en el lugar de esa variable, si acceso por el l-valor obtengo su r-valor. 
+r-valor: representa el valor codificado/almacenado en el lugar de esa variable, si accedo por el l-valor obtengo su r-valor. 
 
 NOMBRE: condiciones de detección de errores por aspectos de diseño: longitud máxima definida (fortran permite 6 caracteres, en C 32 caracteres, python, pascal, ada y java permiten cualquier longitud) | caracteres permitidos para ser parte del nombre: en pascal, c o python permite _ , ruby sólo admite minúsculas para variables globales y $nombre para variables locales | sensibilidad a mayúsculas (C o Python), pascal (case insensitive) | uso de palabras reservadas y claves
 
-ALCANCE: las instrucciones pueden manipular una variables a través de su nombre dentro de su alcance 
+ALCANCE: las instrucciones pueden manipular una variable a través de su nombre dentro de su alcance 
 estático: en términos de la estructura del programa, se puede hacer en una declaración implícita o explícita, la mayoría de lenguajes adoptan este tipo de alcance 
 dinámica: ejecución del programa, donde la declaración se extiende a las instrucciones subsiguientes
-La forma para determinar si el alcance es dinámico o no la pregunta es quién llamó a la variable, en el caso estático como tiene que ver con el formato del programa voy a preguntar dónde está contenida la variable. El resultado de las operaciones entre variables según el lenguaje trabaje con un alcance estático o con uno dinámico. Hay que estar atento a los valores de las variables. Hay que comprender que el alcance de un nombre se extiende DESDE SU DECLARACIÓN HACIA LOS BLOQUES ANIDADOS A MENOS QUE APAREZCA OTRA DECLARACIÓN PARA EL NOMBRE. La pregunta clave en el alcance estático es dónde se encuentra contenida la variables en la estructura para saber dónde es conocida. 
+La forma para determinar si el alcance es dinámico o no la pregunta es quién llamó a la variable, en el caso estático como tiene que ver con el formato del programa voy a preguntar dónde está contenida la variable. El resultado de las operaciones entre variables según el lenguaje trabaje con un alcance estático o con uno dinámico. Hay que estar atento a los valores de las variables. Hay que comprender que el alcance de un nombre se extiende DESDE SU DECLARACIÓN HACIA LOS BLOQUES ANIDADOS A MENOS QUE APAREZCA OTRA DECLARACIÓN PARA EL NOMBRE. La pregunta clave en el alcance estático es dónde se encuentra contenida la variable en la estructura para saber dónde es conocida. 
 
-Las reglas de alcance dinámica son menos utilizadas, más fáciles de implementar, son menos claras porque hay que seguir la secuencia de un flujo de ejecución para dar significado e identificar errores. 
+Las reglas de alcance dinámico son menos utilizadas, más fáciles de implementar, son menos claras porque hay que seguir la secuencia de un flujo de ejecución para dar significado e identificar errores. 
 ALCANCE GLOBAL: referencias a variables del programa principal 
 ALCANCE LOCAL: referencias a variables creadas dentro de una unidad (subprogramas, rutinas, funciones)
 ALCANCE NO LOCAL: referencias utilizadas dentro de un subprograma pero que no fueron creadas ni declaradas dentro de esa unidad de ejecución
  
 Hay palabras claves que permiten definir un determinado alcance, en python "global" y "nonlocal"
 
-ESPACIOS DE NOMBRES: zona abstracta donde se definen objetos (variables, identificadores, funciones, etc.). Al namespace se le asigna un nombre o identificador propio. Cada lenguaje tiene su regla de nombrar y delimitar la zona (_ en C++ y {} para delimitar nombre). Esto es un recurso de los lenguajes, permite agrupar y delimitar alcance, es útil al programador porque permite armas zonas protegidas de nombres, identificadores del mismo nombre (en grandes proyectos es útil.) Son recursos utilizados en lenguajes de tipo dinámico pero ayudan a resolver fácilmente los problemas derivados del atributo alcance de las variables. 
+ESPACIOS DE NOMBRES: zona abstracta donde se definen objetos (variables, identificadores, funciones, etc.). Al namespace se le asigna un nombre o identificador propio. Cada lenguaje tiene su regla de nombrar y delimitar la zona (_ en C++ y {} para delimitar nombre). Esto es un recurso de los lenguajes, permite agrupar y delimitar alcance, es útil al programador porque permite armar zonas protegidas de nombres, identificadores del mismo nombre (en grandes proyectos es útil.) Son recursos utilizados en lenguajes de tipo dinámico pero ayudan a resolver fácilmente los problemas derivados del atributo alcance de las variables. 
 
 TIPO: el tipo es una especificación de un conjunto de valores a asociar a la variable (rango definido) y operaciones permitidas. Antes que se pueda referenciar una variable debe tener un tipo (explícito o implícito). Trabajar con el atributo tipo nos ayuda en cuanto a la semántica porque nos informa valores y operaciones y permite el chequeo de errores a partir de la asignación correcta de tipos. Hay reglas de conversión de tipos, por ejemplo en python (casteo). Hay tipos predefinidos por el lenguaje (enlace estático), o construido por el usuario (constructor o regla), y el TIPO ABSTRACTO DE DATOS. 
 TIPO PREDEFINIDO: con un rango y operaciones. Los valores se ligan en la implementación a representación de máquina. Ocupación en bytes. 
-TIPO DEFINIDO POR EL USUARIO: declaración en el lenguaje -> type en Pascal permite agregar tipos nuevos a partir de los ya definidos por el lenguaje (por ejemplo un subtrango de valores o un record). 
-TAD: es una estructura de datos que representa a un nuevo tipo con un nombre identificador, pero está compuesto por una colección de operaciones definidas (rutinas) que son usadas para manipular los objetos de la estructura. No hay ligadura por defecto con el tipo y el programador debe especificar la representación y las operaciones. Momento de la ligadura del tipo también es estático o dinámico. 
+TIPO DEFINIDO POR EL USUARIO: declaración en el lenguaje -> type en Pascal permite agregar tipos nuevos a partir de los ya definidos por el lenguaje (por ejemplo un subrango de valores o un record). 
+TAD: es una estructura de datos que representa a un nuevo tipo con un nombre identificador, pero está compuesto por una colección de operaciones definidas (rutinas) que son usadas para manipular los objetos de la estructura. No hay ligadura por defecto con el tipo y el programador debe especificar la representación y las operaciones. El momento de la ligadura del tipo también es estático o dinámico. 
 ESTÁTICO: la ligadura se hace en tiempo de compilación, una vez asociada el tipo a la variable el tipo no puede ser cambiado, sí se puede cambiar el valor (siempre que sea del mismo tipo). El chequeo del tipo también es estático. 
 EXPLÍCITO: declaración: int x, y; bool z; 
 IMPLÍCITO: si no hay declaración el tipo se establece por reglas propias del lenguaje. En Fortran de I a N son enteras y el resto son reales.
@@ -68,4 +68,4 @@ L-VALUE
 
 R-VALUE
 - es el valor codificado almacenado en la locación asociada a la variable. El origen está asociado a la operación de asignación. Se accede a la variable por el l-valor y se puede modificar el r-valor (salvo en constantes). 
-LIGADURA DINÁMICA: permite cambiar el valor (común en lenguaje imperativos). En caso de constantes no se permite cambiar el valor. 
+LIGADURA DINÁMICA: permite cambiar el valor (común en lenguajes imperativos). En caso de constantes no se permite cambiar el valor. 

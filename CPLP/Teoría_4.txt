@@ -4,9 +4,9 @@ Mecanismos de control del flujo de ejecución con respecto a las ligaduras que s
 Vamos a empezar con los ATRIBUTOS (en C o Python sólo se tienen funciones y lo que se hace es simular a los procedimientos definiendo las funciones con tipo de retorno void - valor sin tipo particular). 
 -NOMBRE: es un conjunto de caracteres que sirve para la invocación de la unidad. Se define en su declaración (!= a definición). La llamada a la unidad debe estar dentro del alcance del nombre de la rutina. Si la declaración de la función está debajo de main no se podría invocar sin que haya un error de compilación o ejecución. 
 
--ALCANCE: Rando de instrucciones donde se conoce al nombre de la rutina. La activación sólo puede estar dentro del alcance de la rutina (desde el aspecto semántico no tiene sentido invocar un nombre que no conozco). Se trabaja de manera similar que con variables. 
+-ALCANCE: Rango de instrucciones donde se conoce al nombre de la rutina. La activación sólo puede estar dentro del alcance de la rutina (desde el aspecto semántico no tiene sentido invocar un nombre que no conozco). Se trabaja de manera similar que con variables. 
 
-Hay una distinción entre la definición y la declaración. Hay un encabezado de la función + un cuerpo de instrucciones que hacen a la rutina que estamos abstrayendo. La declaración es el encabezado y la definición es encabezado + cuerpo. Si se distingue se permiten llamados recursivos. La declaración de una rutina extiende el alcance (para que sea invocada desde cualquier parte del programa). 
+Hay una distinción entre la definición y la declaración. Hay un encabezado de la función + un cuerpo de instrucciones que hacen a la rutina que estamos abstrayendo. La declaración es el encabezado y la definición es el encabezado + el cuerpo. Si se distingue se permiten llamados recursivos. La declaración de una rutina extiende el alcance (para que sea invocada desde cualquier parte del programa). 
 
 TIPO: El encabezado define el tipo de parámetros + el tipo de retorno si lo hubiera. La correspondencia de tipos entre parámetros formales y reales es requerida para la ejecución de la rutina. 
 
@@ -51,7 +51,7 @@ dinámico
 
 Cada categoría incorpora diferentes elementos que acercan a una representación real. Se profundiza en estático y basado en pila (después entender en términos generales el esquema dinámico). 
 
-ESTÁTICO: tamaño necesario de memoria conocidos antes de la ejecución, esa locación se hace estáticamente (no habrá modificación) y no se permite recursión 
+ESTÁTICO: tamaño necesario de memoria conocido antes de la ejecución, esa locación se hace estáticamente (no habrá modificación) y no se permite recursión 
 
 PILA: hay un espacio predecible, los requerimientos de memoria no se calculan antes de la ejecución, entonces la memoria es calculable y sigue la estructura de una pila. Cuando se termina una unidad se libera la memoria, las variables se alocan de modo automático y se desapilan cunado la unidad ha terminado. La pila no es parte de la semántica del lenguaje sino parte del modelo abstracto con que analizamos su funcionamiento. 
 

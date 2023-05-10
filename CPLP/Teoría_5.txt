@@ -17,7 +17,7 @@ Ejemplo: instrucción CALL ->
 -Transfiere el control a la unidad llamada
 Todos los pasos se realizan cada vez que hay una llamada a subrutina. 
 
-Ejemplo 2: instrcción RETURN
+Ejemplo 2: instrucción RETURN
 -reestablece el free 
 -reestablece el current 
 -bifurca al punto de retorno 
@@ -38,4 +38,4 @@ CATEGORÍA 4: tiene 2 subcategorías:
 -subcategoría 2: permite dentro de la declaración de una rutina la definición de OTRA RUTINA. (anidamiento de rutinas)
 
 Se conforma una ESTRUCTURA DE BLOQUE: donde hay que ver el alcance de las variables (enmascaramiento)... define de otra manera el tiempo de las variables porque no pertenecen a una unidad más pequeña... los bloques pueden ser disjuntos o anidados... 
-Un bloque tiene forma de una sentencia compuesta donde las variables tienen alcance local (sólo son visible dentro de la sentencia compuesta). En caso de anidamiento puede haber una nueva declaración. El alcance va tomando diferentes tamaños en términos léxicos... Estructura de muñecas rusas en el mecanismo de enmascaramiento de las variables (alcance). 
+Un bloque tiene forma de una sentencia compuesta donde las variables tienen alcance local (sólo son visibles dentro de la sentencia compuesta). En caso de anidamiento puede haber una nueva declaración. El alcance va tomando diferentes tamaños en términos léxicos... Estructura de muñecas rusas en el mecanismo de enmascaramiento de las variables (alcance). 
