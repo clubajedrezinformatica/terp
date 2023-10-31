@@ -1,0 +1,41 @@
+La excepción se da con una situación anómala que nuestro código no puede manejar de alguna manera, entonces se da excepcionalmente, es una anomalía que surge y que hay que manejar de alguna manera. Qué hay que tener en cuenta a la hora de manejar excepciones y de incorporar el concepto en el lenguaje que estemos estudiando? Qué herramientas o instrumentos me da el lenguaje para el manejo de excepciones? 
+Preguntas- 
+a. cómo
+b. ámbito 
+c. cómo se lanza/alcanza/definir que surgió una ex y hay que atenderla 
+d. cómo se especifican las unidades que manejarán las ex cuando se produzcan (conj de instrucciones que permiten manejar ex) 
+e. dónde cedemos el control cuando surge la ex. La manejamos con un conjunto de sentencias, se logra manejar y a partir de ese manejo una vez que se terminó de manejar a dónde se cede el control? 
+f. adónde se propaga la excepción si no puedo manejarla? 
+g. considerar la posibilidad que haya excepciones predefinidas por el lenguaje, conoce su origen y son detectadas y manejadas por default. 
+
+Entonces en un principio se planteaban 2 grandes modelos: 
+1. reasunción 
+2. propagación 
+
+A la larga fue ganando adeptos el criterio por TERMINACIÓN. 
+
+Vamos a ver en términos conceptuales los primeros 2 modelos determinando cómo funciona c/u.
+
+1.modelo de reasunción: al producirse una excepción lo que sucede es que se detecta la ex, se maneja y se contiúa en la línea siguiente a la producción de la ex. Ej. se subsana una div por 0 y se continúa en la siguiente línea a la división. 
+Vamos a ver el lenguaje PL1-siempre se pone el ejemplo tirado de los pelos pero vale la pena: el día de mañana podemos tener un lenguaje diseñado por nosotros que junta cosas en tiempo real y necesitamos este modelo: nos enfocamos en el modelo que nos provee pl1, uno de los leng donde se utilizaba este mecanismo. Cada vez que se produce una ex la maneja un manejador y se devuelve el control en la siguiente línea. Las ex cuando tienen que ser llamadas se las llama con la cláusula conditions y son manejadas con la sentencia OnCondition y un conjunto de instrucciones o una única instrucción. El lenguaje PL1 tiene una serie de excepciones predefinidas -> Built-in exceptions (división por 0). Los manejadores se van ligando dinámicamente con las excepciones que deben manejarse. A medida que se ejecuta el código definimos en cualquier parte los manejadores que son bloques de instrucciones. Cuando se produce una excepción voy a buscar EL ÚLTIMO MANEJADOR DEFINIDO para el lugar donde se declaró la excepción. El alcance del manejador abarca hasta el final de la unidad donde fue declarado el manejador. Si en mi unidad declaro varios manejadores, cuando la unidad termina los manejadores dejan de existir.
+
+
+2. terminación: vengo ejecutando líneas de código y al producirse la excepción dejo de ejecutar las líneas que siguen a la que generó al excepción y busco el manejador asociado, ejecutar las acciones correspondientes y en principio termina la unidad como si nada hubiese pasado. Es más sencillo de implementar y el adoptado por la mayoría de los lenguajes. Casi ningún lenguaje utiliza el modelo de reasunción. Cuando se produce la ex se ejecuta el manejador asociado. Hay una zona de manejadores al final del procedimiento. Hay que tener en cuenta que tenemos excepciones que se definen y tienen el mismo alcance que las variables normales del lenguaje ADA. Si tengo una variable de tipo excepción en mi unidad puedo invocarla dentro de su alcance. Pero pasan cuestiones cuando deba propagar la excepción. Se lanzan las excepciones con la keyword RISE. Los manejadores pueden encontrarse en el final de cuatro diferentes unidades de programa: Bloque, Procedimiento, Paquete o Tarea. 
+Ejemplo: 
+Procedure prueba;
+	e1, e3: Exception } se declaran las excepciones como variables en la zona de datos... 
+Begin 
+.....
+Exception } final de procedimiento 
+when e1 - Manejador1;
+when others - Manejadorn;
+End; 
+
+ADA tiene 6 excepciones predefinidas: Constraint_error, Program_error, Storage_error, Numeric_Error, Name_Error, Tasking_error
+
+PROPAGACIÓN: 
+se termina la unidad, bloque, paquete o tarea donde se alcanza la unidad 
+si el manejador se encuentra en ese ámbito, se ejecuta 
+si el manejador no se ncuentra en ese lugar la excepción se propaga dinámicamente. Esto significa que se vuelve a levantar en otro ámbito. 
+hay que tener en cuenta el alcance de la variable que levantó la excepción, si no la manejo en el ámbito local se propaga en forma anónima (no tengo identificador para la excepción, y debería entrar por la cláusula others del ambiente donde se propagó la excepción). 
+
