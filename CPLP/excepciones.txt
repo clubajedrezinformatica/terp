@@ -22,6 +22,7 @@ Vamos a ver el lenguaje PL1-siempre se pone el ejemplo tirado de los pelos pero 
 
 2. terminación: vengo ejecutando líneas de código y al producirse la excepción dejo de ejecutar las líneas que siguen a la que generó al excepción y busco el manejador asociado, ejecutar las acciones correspondientes y en principio termina la unidad como si nada hubiese pasado. Es más sencillo de implementar y el adoptado por la mayoría de los lenguajes. Casi ningún lenguaje utiliza el modelo de reasunción. Cuando se produce la ex se ejecuta el manejador asociado. Hay una zona de manejadores al final del procedimiento. Hay que tener en cuenta que tenemos excepciones que se definen y tienen el mismo alcance que las variables normales del lenguaje ADA. Si tengo una variable de tipo excepción en mi unidad puedo invocarla dentro de su alcance. Pero pasan cuestiones cuando deba propagar la excepción. Se lanzan las excepciones con la keyword RISE. Los manejadores pueden encontrarse en el final de cuatro diferentes unidades de programa: Bloque, Procedimiento, Paquete o Tarea. 
 Ejemplo: 
+
 Procedure prueba;
 	e1, e3: Exception } se declaran las excepciones como variables en la zona de datos... 
 Begin 
@@ -36,6 +37,51 @@ ADA tiene 6 excepciones predefinidas: Constraint_error, Program_error, Storage_e
 PROPAGACIÓN: 
 se termina la unidad, bloque, paquete o tarea donde se alcanza la unidad 
 si el manejador se encuentra en ese ámbito, se ejecuta 
-si el manejador no se ncuentra en ese lugar la excepción se propaga dinámicamente. Esto significa que se vuelve a levantar en otro ámbito. 
+si el manejador no se encuentra en ese lugar la excepción se propaga dinámicamente. Esto significa que se vuelve a levantar en otro ámbito. 
 hay que tener en cuenta el alcance de la variable que levantó la excepción, si no la manejo en el ámbito local se propaga en forma anónima (no tengo identificador para la excepción, y debería entrar por la cláusula others del ambiente donde se propagó la excepción). 
+
+la palabra raise permite levantar la misma excepción que se está manejando... como no hay otro manejador de la misma excepción, se produce una propagación dinámica... la e propagada es local y pierde el alcance, entonces lo que va a pasar es que necesariamente iré al bloque de excepciones y voy a entrar por la cláusula others... si quisiera levantar una excepción de tipo e1, con la definición de null lo que se indica es que no se haga nada con esa excepción... El tema importante es que sale anónima hacia afuera de la unidad invocadora -> la propagación dinámica implica el anonimato de la excepción para la unidad contenedora de la función donde se produjo la excepción... 
+hay situaciones donde puedo usar raise para levantar la misma excepción, el programa termina con falla porque no tengo más bloques de excepciones dentro del programa Main, pero suponiendo que ejecutamos main y por una condición de error sólo levanto una excepción anónima, voy al final donde se encuentra el bloque de manejo de excepciones, voy a entrar por la cláusula when others y voy a poder manejar esa excepción. 
+ADA es por terminación, define variables de excepciones que tienen un alcance símil a las variables convencionales, tiene entradas en un bloque de manejo de excepciones por unidad, sino se propaga dinámicamente. En el caso de que levante una variable local y vuelva a levantar la misma excepción, como la propago dinámicamente la excepción "sale anónima", no me queda otra que entrar por others. Si la excepción que se levanta es una variable declarada en el programa principal conocida por todas las unidades internas a ese main, no pierde el alcance y puede seguir siendo reconocida. 
+Tengamos en cuenta que es determinístico en la asociación de la excepción con el manejador: variable <-> manejador de la variable. Por lo general se llaman de la misma manera. 
+Hay un caso particular donde querríamos seguir ejecutando la instrucción dentro de la unidad que disparó la excepción, en ese caso habría que crear un bloque más interno: ejemplo -> simulando el mecanismo de reasunción con un bloque Declare -> defino variables de excepciones, begin, instrucciones y el bloque de manejo de excepciones, luego del end del Declare continúa la ejecución del programa... si en el Declare se produce una excepción se maneja dentro de la unidad y continúo en la siguiente línea dentro del bloque Declare, esto es una forma de si se quiere hacer un poco más performante el manejo de excepciones en ADA, porque no quiero terminar el procedimiento cuando se produce la excepción, eso lo implemento con la sentencia Declare... 
+
+EXCEPCIONES CLU 
+Otro de los mecanismos de excepciones por terminación es el lenguaje CLU, solamente pueden ser alcanzadas por procedimientos, están asociadas a sentencias, las excepciones que se pueden manejar tienen que estar declaradas en el encabezado de una unidad, se declaran explícitamente con la palabra signal y los manejadores se colocan al lado de una sentencia simple o compleja donde realizo el llamado a una unidad que podría provocar una excepción... 
+<sentencia> except 
+when Nombre-Excepción: Manejador1;
+when Nombre-Excepción: Manejador2;
+...
+when others: Manejadorn;
+end; 
+
+tiene excepciones predefinidas y una característica particular de este viejo lenguaje es que permite el pasaje de parámetros a los manejadores. Se puede relevantar una sola vez una excepción, en cualquier lugar del código, por medio de resignal. 
+
+PROPAGACIÓN 
+1. estoy ejecutando un procedimiento y se produce una excepción, cuando esto ocurre el procedimiento TERMINA, y voy directamente a la sentencia donde se invocó la unidad cortada. Ahí empiezo a buscar los manejadores. Si el manejador se encuentra ahí, se ejecuta y luego continúo con las sentencias del procedimiento donde se trató la excepción. Si el manejador no se encuentra en ese lugar la propagación se propaga ESTÁTICAMENTE (en las sentencias que contienen a la línea invocadora). En caso de no encontrar ningún manejador como pasa en cualquier lenguaje el programa va a fallar (excepción de tipo failure). 
+
+Hasta acá vimos los dos mecanismos más importantes para manejar excepciones: reasunción con PL1 y terminación con ADA y CLU. Los lenguajes de hoy en día generalmente manejan el criterio de terminación. Lenguajes actuales: 
+C++: utiliza el criterio por terminación, las excepciones se alcanzan explícitamente por medio de la sentencia throw, posee excepciones predefinidas, los manejadores van asoaciados a bloques, los bloques que pueden levantar excepciones van precedidos por la palabra clave Try y al finalizar el bloque se detallan los manejadores utilizando la palabra clave Catch(exceptionName)... Al levantarse una excepción dentro del bloque Try el control se transfiere al manejador correspondiente... al finalizar la ejecución del manejador la ejecución continúa como si la unidad que provocó la excepción hubiera sido ejecutada normalmente... Permite pasar parámetros al levantar la excepción -> Throe(Ayuda msg) -> se levanta la excepción Ayuda y se le pasa el parámetro msg. En el bloque try se pueden producir excepciones y los bloques catch son los manejadores de excepciones... Las rutinas en su interface pueden listar las excepciones que ellas pueden alcanzar: qué pasa si en la rutina alcanza otra excepción no contemplada en el listado de la interfaz, no se propaga la interfaz y una función especial se ejecuta automáticamente: unexpected() que provoca un aborto de la ejecución o el final del programa. Esa sentencia puede ser redefinida por el programador. Si en la interfaz está colocada la excepción ésta se propaga pero si la propagación es indefinida el programa termina en falla. 
+
+JAVA ->al igual que c++, las excepciones son OBJETOS que pueden ser alcanzados y manejados por bloques de excepciones, cada excepción está representada por una instancia de la clase Throwable o de una de las subclases de ésta, Error y Exception. La gestión de excepciones se lleva a cabo mediante cinco palabras clave que son: try, catch, throw, throws y finally. Throws especifica cualquier excepción que se envía desde un método. Se debe poner cualquier código que el programador desee ejecutar siempre en el método finally. el bloque finally se deberían ejecutar independientemente de si se produjeron o no excepciones. Fases del tratamiento de excepciones: 
+-Detectar e informar el error 
+ a- lanzamiento de excepción vía throw (dentro del bloque try)
+ b- un método detectar una condición anormal que le impide continuar con su ejecución y finaliza "lanzando" un objeto Excepción 
+-Recoger el error y tratarlo: 
+ a- captura de excepciones -> bloque try-catch 
+ b- un método recibe un objeto Excepción que le indica que otro método no ha terminado correctamente su ejecución y decide actuar en función del tipo de error... 
+
+al producirse una excepción se va buscando en orden por bloque catch hasta matchear el tipo de excepción con su manejador en específico... haya o no levantádose una excepción se ejecutará el bloque finally. A veces podemos anidar bloques try, en ese caso si no lo capturé en un manejador específico puedo salir a buscar el manejador en el bloque try contenedor... 
+
+python 
+php 
+
+cf. particularidades de cada lenguaje. 
+
+Qué pasaría si los programas no proveyeran excepciones? Lo que debería pasar sin herramientas, habría particularidades y complejidades... 
+
+
+
+
+
 
