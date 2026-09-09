@@ -1,0 +1,47 @@
+{
+  "files.associations": {
+    "*.c": "c",
+    "*.cpp": "cpp",
+    "*.cc": "cpp",
+    "*.cxx": "cpp",
+    "*.h": "cpp",
+    "*.hpp": "cpp"
+  },
+
+  "C_Cpp.default.compilerPath": "/usr/bin/g++",
+  "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.default.cStandard": "c17",
+  "C_Cpp.errorSquiggles": "enabled",
+  "C_Cpp.intelliSenseEngine": "default",
+
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.rulers": [
+    100
+  ],
+
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools",
+    "editor.formatOnSave": true
+  },
+
+  "[c]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools",
+    "editor.formatOnSave": true
+  },
+
+  "C_Cpp.clang_format_style": "file",
+  "C_Cpp.clang_format_fallbackStyle": "Google",
+
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  "terminal.integrated.defaultProfile.linux": "bash",
+
+  "explorer.confirmDelete": true,
+  "explorer.confirmDragAndDrop": true
+}

@@ -1,0 +1,33 @@
+# Archivos objeto y compilados
+*.o
+*.obj
+*.out
+*.exe
+*.dll
+*.so
+*.a
+
+# Archivos de depuración
+core
+core.*
+*.dSYM/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+*~
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# VS Code local
+.vscode/*.log
+
+# Ejecutables concretos de ejercicios
+fundamentos/hello
+fundamentos/debug
+fundamentos/clang-test
