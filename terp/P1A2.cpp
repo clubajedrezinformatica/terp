@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std; 
 
+#define FIN ios::sync_with_stdio(0);cout.tie(0);cin.tie(0) 
 const long long MOD = 1e9 + 7; 
 
 int main() {
@@ -17,5 +18,5 @@ int main() {
             }
         }
     }
-    cout << dp[n] << endl;
+    cout << dp[n] << "\n";
 }

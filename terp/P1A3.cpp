@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
+#define FIN ios::sync_with_stdio(0); cout.tie(0); cin.tie(0)
 using namespace std; 
-
 const int INF = 1e9;
 
 int main(){
+    FIN; 
     int n, x;
     cin >> n >> x; 
 
@@ -20,5 +21,5 @@ int main(){
             }
         }
     }
-    cout << (dp[x] == INF ? -1 : dp[x]) << endl; 
+    cout << (dp[x] == INF ? -1 : dp[x]) << "\n"; 
 }

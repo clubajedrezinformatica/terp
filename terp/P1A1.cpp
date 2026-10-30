@@ -1,9 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std; 
 
+#define FIN ios::sync_with_stdio(0);cout.tie(0);cin.tie(0)
+
 const long long MOD = 1e9+7; 
 
 int main(){
+    FIN; 
     int k;
     cin >> k;
 
@@ -21,5 +24,5 @@ int main(){
     long long respuesta = 0; 
     for (long long v : dp) respuesta = (respuesta + v) % MOD;
 
-    cout << respuesta << endl;
+    cout << respuesta << "\n";
 }
