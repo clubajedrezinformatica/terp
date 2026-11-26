@@ -51,3 +51,32 @@ int main(){
         cout << x << ": L = " << R - 1 <<  ", R = " << R << '\n';
     } 
 }
+
+
+//GEOMETRÍA - FUNCIONES BÁSICAS
+//DECLARACIÓN DE PUNTOS 
+struct P{
+    long long x, y;
+}
+
+//PRODUCTO CRUZADO 
+//VERSIÓN DE LA TEORÍA 
+double producto_en_cruz(point a, point b, point c){
+    return((a[x]*b[y]-a[y]*b[x] + a[y]*c[x] - a[x]*c[y] + b[x]*c[y] - c[x]*b[y]));
+}
+
+//VERSIÓN PARA LA PRÁCTICA
+long long cross (P a, P b, P c){
+    return(b.x - a.x)*(c.y - a.y) - (c.x - a.x)*(b.y - a.y);
+}
+
+//POINT IN BOX 
+//¿p está dentro de la caja de b1 y b2? (el punto a comprobar se recibe al final por parámetro)
+bool point_in_box(P b1, P b2, P p){
+    return((p.x >= min(b1.x, b2.x))&& (p.x <= max(b1.x, b2.x)) && (p.y >= min(b1.y, b2.y)) && (p.y <= max(b1.y, b2.y)));
+}
+
+//versión sin tanto paréntesis
+bool point_in_box(P b1, P b2, P p){
+    return p.x >= min(b1.x, b2.x) && p.x <= max(b1.x, b2.x) && p.y >= min(b1.y, b2.y) && p.y <= max(b1.y, b2.y);
+}
